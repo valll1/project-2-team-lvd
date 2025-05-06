@@ -26,33 +26,38 @@ def process_data(urls):
        # make request to server
        page = requests.get(url)
 
-    # process data if request is successful
-    if page.status_code == 200:
-      # import raw html into beautiful soup
-      soup = BeautifulSoup(page.content,'html.parser')
+       #process data if request is successful
+       if page.status_code == 200:
+        # import raw html into beautiful soup
+        soup = BeautifulSoup(page.content,'html.parser')
 
-     # extract height from the td tags
-      height_tags = soup.find_all('td', class_='height')
+        #find table tag on website
+        table_tag = soup.find('table')
+        #identify rows inside table tag
+        rows = table_tag.find_all('tr')
 
-      # loop through each td tag and extract content for heights
-      for height_tag in height_tags:
-        raw_height = height_tag.get_text()
-        #only process players that have a given height that is not an empty string
-        if len(raw_height.split('-')) == 2 and raw_height.split('-')[0]!= '':
-          # extract the feet and inches from the list and convert string into floats
-          feet = float(raw_height.split('-')[0]) * 12 #convert feet to inches by multiplying by 12
-          inches = float(raw_height.split('-')[1]) #extract inches from the list
-          height_in_inches = feet + inches #add to find the total inches
-          heights.append(height_in_inches) #append height in inches to the heights list
+        #loop through each row
+        for row in rows:
+          #extract the name from the td tags
+          name_tags = row.find('td', class_='sidearm-table-player-name')
+          #extract height from the td tags
+          height_tags = row.find('td', class_='height')
 
-          #extract the name of the player only if the height is given and not an empty string
-          #find can be used instead of find all since the for loop is going through each player for the height
-          name_tags = soup.find('td', class_='sidearm-table-player-name')
-          #extract and append each name that has a given height into the names list
-          names.append(name_tags.get_text().strip())
-        #if the player does not have a given height or it is an empty string continue to the next player
-        else:
-          continue
+          raw_height = height_tags.get_text()
+
+          #only process players that have a given height that is not an empty string
+          if len(raw_height.split('-')) == 2 and raw_height.split('-')[0]!= '':
+            # extract the feet and inches from the list and convert string into floats
+            feet = float(raw_height.split('-')[0]) * 12 #convert feet to inches by multiplying by 12
+            inches = float(raw_height.split('-')[1]) #extract inches from the list
+            height_in_inches = feet + inches #add to find the total inches
+            heights.append(height_in_inches) #append height in inches to the heights list
+            #extract and append each name that has a given height into the names list
+            name = name_tags.get_text().strip()
+            names.append(name)
+          #if the player does not have a given height or it is an empty string continue to the next player
+          else:
+            continue
 
     #create pandas dataframe from the names list and heights list
     data = {
