@@ -26,7 +26,7 @@ sports_teams = {
 # Dictionary to map each output CSV file
 team_csvs = {}
 
-# For each team, this will scrape, save to CSV, and map the name of each CSV file back to the team_cvs dictionary.
+# For each team, this will scrape, save to CSV, and map the name of each CSV file back to the team_csvs dictionary.
 for team in sports_teams:
   df = process_data(sports_teams[team])
   file_name = team + '.csv'
