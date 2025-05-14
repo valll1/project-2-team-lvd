@@ -9,7 +9,6 @@ sports_teams = {
                     'mens_swimming_diving': ['https://csidolphins.com/sports/mens-swimming-and-diving/roster/2023-2024?view=2', 'https://yorkathletics.com/sports/mens-swimming-and-diving/roster', 'https://athletics.baruch.cuny.edu/sports/mens-swimming-and-diving/roster?view=2', 'https://www.brooklyncollegeathletics.com/sports/mens-swimming-and-diving/roster/2024-25?view=2', 'https://lindenwoodlions.com/sports/mens-swimming-and-diving/roster?view=2', 'https://mckbearcats.com/sports/mens-swimming-and-diving/roster?view=2', 'https://ramapoathletics.com/sports/mens-swimming-and-diving/roster?view=2', 'https://oneontaathletics.com/sports/mens-swimming-and-diving/roster?view=2', 'https://binghamtonbearcats.com/sports/mens-swimming-and-diving/roster/2021-22?view=2', 'https://albrightathletics.com/sports/mens-swimming-and-diving/roster/2021-22?view=2'],
                     'womens_swimming_diving': ['https://csidolphins.com/sports/womens-swimming-and-diving/roster/2023-2024?view=2', 'https://queensknights.com/sports/womens-swimming-and-diving/roster?view=2', 'https://yorkathletics.com/sports/womens-swimming-and-diving/roster', 'https://athletics.baruch.cuny.edu/sports/womens-swimming-and-diving/roster/2021-22?view=2', 'https://www.brooklyncollegeathletics.com/sports/womens-swimming-and-diving/roster?view=2', 'https://lindenwoodlions.com/sports/womens-swimming-and-diving/roster?view=2', 'https://mckbearcats.com/sports/womens-swimming-and-diving/roster?view=2', 'https://ramapoathletics.com/sports/womens-swimming-and-diving/roster?view=2', 'https://keanathletics.com/sports/womens-swimming-and-diving/roster?view=2', 'https://oneontaathletics.com/sports/womens-swimming-and-diving/roster?view=2']
                 }
-
 #create function to process urls
 def process_data(urls):
 
@@ -17,6 +16,7 @@ def process_data(urls):
     names = []
     #list to store heights
     heights = []
+
     #counter for while loop
     counter = 0
 
@@ -53,14 +53,12 @@ def process_data(urls):
     #adds the total height in inches
     heights = list(map(lambda x : (float(x[0]) * 1.0 * 12) + (float(x[1]) * 1.0)  , heights))
 
-
     #create pandas dataframe from the names list and heights list
     data = {
             'Name' : names,
             'Height': heights
           }
     df = pd.DataFrame(data)
-
     return df #return the dataframe
 
 #create dataframe for each sport using the corresponding list of urls
